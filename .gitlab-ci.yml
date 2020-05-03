@@ -1,0 +1,20 @@
+image: "ruby:2.5"
+before_script:
+  - apt-get update -qy
+  - apt-get -y install zip unzip
+
+stages:
+  - build
+
+build:
+  stage: build
+  script:
+    - zip followme.zip -r followme -x ".*"
+  artifacts:
+    name: followme
+    when: on_success
+    paths:
+      - followme.zip
+  when: on_success
+  only:
+    - tags

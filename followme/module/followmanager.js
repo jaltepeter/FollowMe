@@ -113,4 +113,8 @@ export class FollowManager {
             return token.getFlag(flagScope, flag.leader) == leaderId;
         } else return false;
     }
+
+    static areFollowingEachother(firstTokenId, secondTokenId) {
+        return this.isFollowing(firstTokenId, secondTokenId) || this.isFollowing(secondTokenId, firstTokenId);
+    }
 }

@@ -28,24 +28,13 @@ export class FollowHud {
             }
             // if the pair is not linked AND the leader is not already a follower - show the mount button
             else {
-                if (!FollowManager.isLeader(leader.id) && !FollowManager.isFollower(leader.id)) {
-                    this.addStartFollowButton(html, follower.id, leader.id);
+                if (!FollowManager.isLeader(leader.id)) {
+                    if (!FollowManager.areFollowingEachother(leader.id, follower.id)) {
+                        this.addStartFollowButton(html, follower.id, leader.id);
+                    }
                 }
             }
         }
-
-        // if (followerId) {
-        //     // If the follower id not already a follower,
-        //     // and the leader is not already a leader:
-        //     //   allow it to start following 
-        //     if (!FollowManager.isFollower(followerId)) {
-        //         if (!FollowManager.isLeader(leaderId) && !FollowManager.isFollowing(leaderId, followerId)) {
-        //             this.addStartFollowButton(html, data);
-        //         }
-        //     } else if (FollowManager.isFollowing(followerId, leaderId)) {
-        //         this.addStopFollowButton(html, data);
-        //     }
-        // }
     }
 
     /**

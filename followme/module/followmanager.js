@@ -1,4 +1,3 @@
-import { FollowLinks } from "./followlinks.js";
 import { socketName, socketAction } from "./socketinfo.js";
 import { findTokenById, flagScope, flag } from "./utils.js";
 

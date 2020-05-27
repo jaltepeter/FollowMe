@@ -3,7 +3,7 @@
     "title": "Follow Me!",
     "description": "Allows tokens to follow other tokens.",
     "author": "Brunhine",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "minimumCoreVersion": "0.5.7",
     "compatibleCoreVersion": "0.5.7",
     "esmodules": [
@@ -13,5 +13,5 @@
     "socket": true,
     "url": "https://gitlab.com/brunhine/foundry-followme",
     "manifest": "https://gitlab.com/brunhine/foundry-followme/raw/master/followme/module.json",
-    "download": "https://gitlab.com/brunhine/foundry-followme/-/jobs/artifacts/0.1.2/raw/followme.zip?job=build"
+    "download": "https://gitlab.com/brunhine/foundry-followme/-/jobs/artifacts/0.1.3/raw/followme.zip?job=build"
 }

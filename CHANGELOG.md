@@ -1,3 +1,6 @@
+# 0.1.3
+- Fix error when token was being followed by a token they do not own
+
 # 0.1.2
 - Fix for missing dependencies
 

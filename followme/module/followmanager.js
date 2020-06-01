@@ -1,7 +1,6 @@
 import { socketName, socketAction } from "./socketinfo.js";
 import { findTokenById, flagScope, flag } from "./utils.js";
 
-
 export class FollowManager {
 
     static async summonFollower(token, movingToX, movingToY) {
@@ -12,31 +11,6 @@ export class FollowManager {
 
             let newX = leader.x;
             let newY = leader.y;
-
-            // // handle horizontal
-            // if (movingToX) {
-            //     if (movingToX > leader.x) { // moving right
-            //         newX -= follower.w;
-            //     } else if (movingToX < leader.x) { // moving left
-            //         newX += leader.w;
-            //     }
-            // } else {
-            //     newX = leader.x;
-            // }
-
-            // // handle vertical
-            // if (movingToY) {
-            //     if (movingToY > leader.y) { // moving down
-            //         newY -= follower.h;
-            //     } else if (movingToY < leader.y) { // moving up
-            //         newY += leader.h;
-            //     }
-            // } else {
-            //     newY = leader.y;
-            // }
-
-
-
 
 
             if (game.user.isGM) {

@@ -1,5 +1,8 @@
 export class Settings {
 
+
+
+
     static getIcon() {
         return 'fa-shoe-prints';
     }

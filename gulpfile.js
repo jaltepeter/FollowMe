@@ -2,17 +2,18 @@ const gulp = require('gulp');
 const fs = require('fs-extra');
 const path = require('path');
 const chalk = require('chalk');
+const archiver = require('archiver');
 const stringify = require('json-stringify-pretty-compact');
+const typescript = require('typescript');
+
+const ts = require('gulp-typescript');
 const less = require('gulp-less');
+const sass = require('gulp-sass');
 const git = require('gulp-git');
 
 const argv = require('yargs').argv;
 
-const webpack = require('webpack');
-const webpackConfig = require('./webpack.config.js');
-const browserSync = require('browser-sync').create();
-
-
+sass.compiler = require('sass');
 
 function getConfig() {
     const configPath = path.resolve(process.cwd(), 'foundryconfig.json');
@@ -51,18 +52,109 @@ function getManifest() {
     return json;
 }
 
+/**
+ * TypeScript transformers
+ * @returns {typescript.TransformerFactory<typescript.SourceFile>}
+ */
+function createTransformer() {
+	/**
+	 * @param {typescript.Node} node
+	 */
+    function shouldMutateModuleSpecifier(node) {
+        if (
+            !typescript.isImportDeclaration(node) &&
+            !typescript.isExportDeclaration(node)
+        )
+            return false;
+        if (node.moduleSpecifier === undefined) return false;
+        if (!typescript.isStringLiteral(node.moduleSpecifier)) return false;
+        if (
+            !node.moduleSpecifier.text.startsWith('./') &&
+            !node.moduleSpecifier.text.startsWith('../')
+        )
+            return false;
+        if (path.extname(node.moduleSpecifier.text) !== '') return false;
+        return true;
+    }
+
+	/**
+	 * Transforms import/export declarations to append `.js` extension
+	 * @param {typescript.TransformationContext} context
+	 */
+    function importTransformer(context) {
+        return (node) => {
+			/**
+			 * @param {typescript.Node} node
+			 */
+            function visitor(node) {
+                if (shouldMutateModuleSpecifier(node)) {
+                    if (typescript.isImportDeclaration(node)) {
+                        const newModuleSpecifier = typescript.createLiteral(
+                            `${node.moduleSpecifier.text}.js`
+                        );
+                        return typescript.updateImportDeclaration(
+                            node,
+                            node.decorators,
+                            node.modifiers,
+                            node.importClause,
+                            newModuleSpecifier
+                        );
+                    } else if (typescript.isExportDeclaration(node)) {
+                        const newModuleSpecifier = typescript.createLiteral(
+                            `${node.moduleSpecifier.text}.js`
+                        );
+                        return typescript.updateExportDeclaration(
+                            node,
+                            node.decorators,
+                            node.modifiers,
+                            node.exportClause,
+                            newModuleSpecifier
+                        );
+                    }
+                }
+                return typescript.visitEachChild(node, visitor, context);
+            }
+
+            return typescript.visitNode(node, visitor);
+        };
+    }
+
+    return importTransformer;
+}
+
+const tsConfig = ts.createProject('tsconfig.json', {
+    getCustomTransformers: (_program) => ({
+        after: [createTransformer()],
+    }),
+});
 
 /********************/
 /*		BUILD		*/
 /********************/
 
 /**
+ * Build TypeScript
+ */
+function buildTS() {
+    return gulp.src('src/**/*.ts').pipe(tsConfig()).pipe(gulp.dest('dist'));
+}
+
+/**
  * Build Less
  */
 function buildLess() {
-    return gulp.src('src/css/*.less').pipe(less()).pipe(gulp.dest('dist/css/')).pipe(browserSync.stream());
+    return gulp.src('src/*.less').pipe(less()).pipe(gulp.dest('dist'));
 }
 
+/**
+ * Build SASS
+ */
+function buildSASS() {
+    return gulp
+        .src('src/*.scss')
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('dist'));
+}
 
 /**
  * Copy static files
@@ -83,7 +175,6 @@ async function copyFiles() {
                 await fs.copy(path.join('src', file), path.join('dist', file));
             }
         }
-        browserSync.reload();
         return Promise.resolve();
     } catch (err) {
         Promise.reject(err);
@@ -94,39 +185,14 @@ async function copyFiles() {
  * Watch for changes for each build step
  */
 function buildWatch() {
-    const config = {
-        server: false,
-        proxy: {
-            target: "localhost:30000",
-            ws: true
-        },
-        browser: 'google-chrome',
-        open: false
-    };
-    browserSync.init(config);
-
+    gulp.watch('src/**/*.ts', { ignoreInitial: false }, buildTS);
     gulp.watch('src/**/*.less', { ignoreInitial: false }, buildLess);
+    gulp.watch('src/**/*.scss', { ignoreInitial: false }, buildSASS);
     gulp.watch(
-        ['src/fonts', 'src/lang', 'src/templates', 'src/*.json', 'src/assets/**/*'],
+        ['src/fonts', 'src/lang', 'src/templates', 'src/*.json'],
         { ignoreInitial: false },
         copyFiles
     );
-    gulp.watch('src/scripts/**/*.js', buildWebpack);
-}
-
-
-function buildWebpack() {
-    return new Promise(function (resolve, reject) {
-        webpack(webpackConfig, function (err, stats) {
-            if (err)
-                return reject(err);
-            if (stats.hasErrors())
-                return reject(new Error(stats.compilation.errors.join('\n')));
-
-            browserSync.reload();
-            resolve();
-        });
-    });
 }
 
 /********************/
@@ -236,9 +302,59 @@ async function linkUserData() {
     }
 }
 
+/*********************/
+/*		PACKAGE		 */
+/*********************/
+
+/**
+ * Package build
+ */
+async function packageBuild() {
+    const manifest = getManifest();
+
+    return new Promise((resolve, reject) => {
+        try {
+            // Remove the package dir without doing anything else
+            if (argv.clean || argv.c) {
+                console.log(chalk.yellow('Removing all packaged files'));
+                fs.removeSync('package');
+                return;
+            }
+
+            // Ensure there is a directory to hold all the packaged versions
+            fs.ensureDirSync('package');
+
+            // Initialize the zip file
+            const zipName = `${manifest.file.name}-v${manifest.file.version}.zip`;
+            const zipFile = fs.createWriteStream(path.join('package', zipName));
+            const zip = archiver('zip', { zlib: { level: 9 } });
+
+            zipFile.on('close', () => {
+                console.log(chalk.green(zip.pointer() + ' total bytes'));
+                console.log(
+                    chalk.green(`Zip file ${zipName} has been written`)
+                );
+                return resolve();
+            });
+
+            zip.on('error', (err) => {
+                throw err;
+            });
+
+            zip.pipe(zipFile);
+
+            // Add the directory with the final code
+            zip.directory('dist/', manifest.file.name);
+
+            zip.finalize();
+        } catch (err) {
+            return reject(err);
+        }
+    });
+}
 
 /*********************/
-/*	update manifest  */
+/*		PACKAGE		 */
 /*********************/
 
 /**
@@ -321,12 +437,11 @@ function updateManifest(cb) {
 
         /* Update URLs */
 
-        const downloadUrl = `${repoURL}/releases/download/v${manifest.file.version}/${manifest.file.name}.zip`;
-        // const result = `${rawURL}/v${manifest.file.version}/package/${manifest.file.name}-v${manifest.file.version}.zip`;
+        const result = `${rawURL}/v${manifest.file.version}/package/${manifest.file.name}-v${manifest.file.version}.zip`;
 
         manifest.file.url = repoURL;
         manifest.file.manifest = `${rawURL}/master/${manifestRoot}/${manifest.name}`;
-        manifest.file.download = downloadUrl;
+        manifest.file.download = result;
 
         const prettyProjectJson = stringify(manifest.file, {
             maxLength: 35,
@@ -347,7 +462,7 @@ function updateManifest(cb) {
 }
 
 function gitAdd() {
-    return gulp.src('.').pipe(git.add());
+    return gulp.src('package').pipe(git.add({ args: '--no-all' }));
 }
 
 function gitCommit() {
@@ -372,16 +487,18 @@ function gitTag() {
 
 const execGit = gulp.series(gitAdd, gitCommit, gitTag);
 
-const execBuild = gulp.parallel(buildWebpack, buildLess, copyFiles);
+const execBuild = gulp.parallel(buildTS, buildLess, buildSASS, copyFiles);
 
 exports.build = gulp.series(clean, execBuild);
 exports.watch = buildWatch;
 exports.clean = clean;
 exports.link = linkUserData;
+exports.package = packageBuild;
 exports.update = updateManifest;
 exports.publish = gulp.series(
     clean,
     updateManifest,
     execBuild,
+    packageBuild,
     execGit
 );

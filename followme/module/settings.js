@@ -1,5 +1,3 @@
-
-
 export class Settings {
 
     static getIcon() {

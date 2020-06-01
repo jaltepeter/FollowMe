@@ -1,7 +1,7 @@
 import { FollowHud } from "./followhud.js";
-import { Settings } from "./settings.js";
 import { FollowManager } from "./followmanager.js";
-import { socketName, socketAction } from "./socketinfo.js";
+import { Settings } from "./settings.js";
+import { socketAction, socketName } from "./socketinfo.js";
 import { findTokenById } from "./utils.js";
 
 Hooks.on('ready', () => {

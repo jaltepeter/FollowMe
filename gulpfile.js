@@ -10,7 +10,6 @@ const argv = require('yargs').argv;
 
 const webpack = require('webpack');
 const webpackConfig = require('./webpack.config.js');
-
 const browserSync = require('browser-sync').create();
 
 

@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		}
+	],
+	"settings": {
+		"emeraldwalk.runonsave": {
+			"commands": [
+				{
+					"match": ".*",
+					"isAsync": true,
+					"cmd": "gulp build"
+				}
+			]
+		},
+		"editor.codeActionsOnSave": {
+			"source.organizeImports": true
+		}
+	}
+}

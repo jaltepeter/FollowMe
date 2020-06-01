@@ -1,5 +1,5 @@
-import { Settings } from "./settings.js";
 import { FollowManager } from "./followmanager.js";
+import { Settings } from "./settings.js";
 import { findTokenById } from "./utils.js";
 
 

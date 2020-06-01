@@ -1,5 +1,5 @@
-import { socketName, socketAction } from "./socketinfo.js";
-import { findTokenById, flagScope, flag } from "./utils.js";
+import { socketAction, socketName } from "./socketinfo.js";
+import { findTokenById, flag, flagScope } from "./utils.js";
 
 export class FollowManager {
 
@@ -11,6 +11,7 @@ export class FollowManager {
 
             let newX = leader.x;
             let newY = leader.y;
+
 
 
             if (game.user.isGM) {

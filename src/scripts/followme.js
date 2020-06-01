@@ -1,8 +1,8 @@
-import { FollowHud } from "./module/followhud.js";
-import { Settings } from "./module/settings.js";
-import { FollowManager } from "./module/followmanager.js";
-import { socketName, socketAction } from "./module/socketinfo.js";
-import { findTokenById } from "./module/utils.js";
+import { FollowHud } from "./followhud.js";
+import { Settings } from "./settings.js";
+import { FollowManager } from "./followmanager.js";
+import { socketName, socketAction } from "./socketinfo.js";
+import { findTokenById } from "./utils.js";
 
 Hooks.on('ready', () => {
     Settings.registerSettings();

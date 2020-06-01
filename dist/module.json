@@ -3,7 +3,7 @@
     "title": "Follow Me!",
     "description": "Allows tokens to follow other tokens.",
     "author": "Brunhine",
-    "version": "0.1.3",
+    "version": "1.0.0",
     "minimumCoreVersion": "0.5.7",
     "compatibleCoreVersion": "0.5.7",
     "esmodules": [

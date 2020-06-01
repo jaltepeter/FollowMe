@@ -1,17 +1,15 @@
 {
-    "name": "followme",
-    "title": "Follow Me!",
-    "description": "Allows tokens to follow other tokens.",
-    "author": "Brunhine",
-    "version": "1.0.0",
-    "minimumCoreVersion": "0.5.7",
-    "compatibleCoreVersion": "0.5.7",
-    "esmodules": [
-        "followme.js"
-    ],
-    "scripts": [],
-    "socket": true,
-    "url": "https://gitlab.com/brunhine/foundry-followme",
-    "manifest": "https://gitlab.com/brunhine/foundry-followme/raw/master/followme/module.json",
-    "download": "https://gitlab.com/brunhine/foundry-followme/-/jobs/artifacts/0.1.3/raw/followme.zip?job=build"
+	"name": "followme",
+	"title": "Follow Me!",
+	"description": "Allows tokens to follow other tokens.",
+	"author": "Brunhine",
+	"version": "1.0.0",
+	"minimumCoreVersion": "0.5.7",
+	"compatibleCoreVersion": "0.5.7",
+	"esmodules": ["followme.js"],
+	"scripts": [],
+	"socket": true,
+	"url": "https://github.com/Brunhine/FollowMe",
+	"manifest": "https://raw.githubusercontent.com/Brunhine/FollowMe/master/src/module.json",
+	"download": "https://github.com/Brunhine/FollowMe/releases/download/v1.0.0/followme.zip"
 }

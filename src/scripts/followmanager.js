@@ -12,8 +12,6 @@ export class FollowManager {
             let newX = leader.x;
             let newY = leader.y;
 
-
-
             if (game.user.isGM) {
                 await follower.update({
                     x: newX,
@@ -29,7 +27,6 @@ export class FollowManager {
             }
         }
     }
-
 
     static async startFollowing(followerId, leaderId) {
         if (game.user.isGM) {

@@ -2,14 +2,11 @@ import { FollowManager } from "./followmanager.js";
 import { Settings } from "./settings.js";
 import { findTokenById } from "./utils.js";
 
-
 export class FollowHud {
 
     static renderFollowHud(app, html, data) {
 
         let leader = canvas.tokens.controlled.find(t => t.id == data._id);
-        // let followerId = canvas.tokens.controlled[0].id;
-        // let leaderId = data._id;
 
         // if exactly 1 selected and hud is from any leader then show the stop following button
         if (canvas.tokens.controlled.length == 1 && FollowManager.isLeader(leader.id)) {

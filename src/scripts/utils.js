@@ -1,4 +1,3 @@
-
 export const flagScope = 'followme';
 export const socketName = "module.followme";
 

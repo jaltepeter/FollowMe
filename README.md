@@ -1,3 +1,5 @@
+![Logo](img/ogFollowMe.png)
+
 # Follow Me
 **Follow Me** is a module for [Foundry VTT](https://foundryvtt.com/  "Foundry VTT") that allows tokens to follow or be followed by other tokens. This is completely system agnostic, and fully customizable to fit right into your game.
 

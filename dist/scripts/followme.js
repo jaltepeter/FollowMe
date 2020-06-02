@@ -23,4 +23,4 @@
   !*** ./src/scripts/utils.js ***!
   \******************************/
 /*! exports provided: flagScope, socketName, flag, findTokenById */function(t,e,o){"use strict";o.r(e),o.d(e,"flagScope",(function(){return l})),o.d(e,"socketName",(function(){return s})),o.d(e,"flag",(function(){return n})),o.d(e,"findTokenById",(function(){return i}));const l="followme",s="module.followme",n={leader:"leader",follower:"follower"};function i(t){return canvas.tokens.placeables.find(e=>e.id==t)}}});
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=followme.js.map

@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-    name: 'mess',
+    name: 'followme',
     entry: {
         index: './src/scripts/followme.js'
     },
@@ -11,7 +11,7 @@ module.exports = {
     devtool: 'source-map',
     output: {
         publicPath: 'modules/followme/scripts/',
-        filename: 'index.js',
+        filename: 'followme.js',
         chunkFilename: 'bundles/[name].[chunkhash:4].js',
         path: path.resolve(__dirname, 'dist/scripts/'),
     },

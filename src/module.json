@@ -6,7 +6,9 @@
 	"version": "1.0.6",
 	"minimumCoreVersion": "0.5.7",
 	"compatibleCoreVersion": "0.5.7",
-	"esmodules": ["followme.js"],
+	"esmodules": [
+		"scripts/followme.js"
+	],
 	"scripts": [],
 	"socket": true,
 	"url": "https://github.com/Brunhine/FollowMe",

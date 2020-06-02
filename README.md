@@ -1,10 +1,12 @@
-<img alt="GitHub release (latest by date)" src="https://img.shields.io/github/v/release/brunhine/followme?style=flat-square"> <img alt="GitHub" src="https://img.shields.io/github/license/brunhine/followme?style=flat-square"> <img alt="GitHub Releases" src="https://img.shields.io/github/downloads/brunhine/followme/latest/total?style=flat-square">  
-
 # Follow Me
 **Follow Me** is a module for [Foundry VTT](https://foundryvtt.com/  "Foundry VTT") that allows tokens to follow or be followed by other tokens. This is completely system agnostic, and fully customizable to fit right into your game.
 
 <p align="center">
-  
+
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/brunhine/followme?style=flat-square)
+![GitHub latest version downloads](https://img.shields.io/github/downloads/brunhine/followme/latest/total?style=flat-square)
+
 [![Twitter Follow](https://img.shields.io/badge/follow-%40Brunhine-blue.svg?style=flat-square&logo=twitter)](https://twitter.com/brunhine)
 [![Become a Patron](https://img.shields.io/badge/support-patreon-orange.svg?style=flat-square&logo=patreon)](https://www.patreon.com/brunhine)
 [![Donate via Ko-Fi](https://img.shields.io/badge/support-ko--fi-ff4646?style=flat-square&logo=ko-fi)](https://ko-fi.com/brunhine)

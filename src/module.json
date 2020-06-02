@@ -3,7 +3,7 @@
 	"title": "Follow Me!",
 	"description": "Allows tokens to follow other tokens.",
 	"author": "Brunhine",
-	"version": "1.0.2",
+	"version": "1.0.3",
 	"minimumCoreVersion": "0.5.7",
 	"compatibleCoreVersion": "0.5.7",
 	"esmodules": ["followme.js"],
@@ -11,5 +11,5 @@
 	"socket": true,
 	"url": "https://github.com/Brunhine/FollowMe",
 	"manifest": "https://raw.githubusercontent.com/Brunhine/FollowMe/master/src/module.json",
-	"download": "https://raw.githubusercontent.com/Brunhine/FollowMe/v1.0.2/package/followme-v1.0.2.zip"
+	"download": "https://github.com/Brunhine/FollowMe/releases/download/v1.0.3/followme.zip"
 }

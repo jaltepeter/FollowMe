@@ -1,3 +1,7 @@
+# 1.0.0
+- Migrate repo to GitHub
+- Minify source files
+
 # 0.1.3
 - Fix error when token was being followed by a token they do not own
 
